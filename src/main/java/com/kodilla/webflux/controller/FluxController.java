@@ -1,5 +1,6 @@
 package com.kodilla.webflux.controller;
 
+import com.kodilla.webflux.BookDto;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +15,15 @@ public class FluxController {
     public Flux<String> getStrings() {
         return Flux
                 .just("a", "b", "c", "d", "e")
+                .delayElements(Duration.ofSeconds(2))
+                .log();
+    }
+
+    @GetMapping(value = "/books")
+    public Flux<BookDto> getBookDtos() {
+        return Flux
+                .just(new BookDto("title1", "author1", 1999),
+                        new BookDto("title2", "author2", 2000))
                 .delayElements(Duration.ofSeconds(2))
                 .log();
     }
